@@ -1,38 +1,42 @@
-const mongoose = require("mongoose");
+const express = require("express");
+const Post = require('../models/post'); 
+const router = express.Router();
 
-const postSchema = new mongoose.Schema({
-  UserId: { type: String, required: true},
-  PostId: { type: String, required: true},
-  content: { type: String, required: true},
-  timestamp: { type: String, required: true}
-});
+router
+  .post('/create', async (req, res) => {
+    try {
+      const post = await Post.newPost(req.body.UserId, req.body.PostId, req.body.content, req.body.timestamp);
+      res.send({...post});
+    } catch(error) {
+      res.status(401).send({ message: error.message });
+    }
+  })
 
-const Post = mongoose.model("Post", postSchema);
+  .post('/viewpost', async (req, res) => {
+    try {
+      const post = await Post.viewPost(req.body.UserId);
+      res.send({...post});
+    } catch(error) {
+      res.status(401).send({ message: error.message }); 
+    }
+  })
 
-async function newPost(UserId, PostId, content, timestamp) {
+  .put('/update', async (req, res) => {
+    try {
+      const post = await Post.updatePost(req.body.pid, req.body.newcontent);
+      res.send({...post});
+    } catch(error) {
+      res.status(401).send({ message: error.message });
+    }
+  })
 
-  const newPost = await Post.create({
-    UserId: UserId,
-    PostId: PostId,
-    content: content,
-    timestamp: timestamp
-  });
+  .delete('/delete', async (req, res) => {
+    try {
+      await Post.deletePost(req.body.pid);
+      res.send({ success: "Post deleted" });
+    } catch(error) {
+      res.status(401).send({ message: error.message });
+    }
+  })
 
-  return newPost;
-}
-
-async function viewPost(pid) {
-    return await Post.find({"UserId": pid});
-}
-
-async function updatePost(pid, newcontent) {
-  const post = await Post.updateOne({"_id": pid}, {$set: { content: newcontent}});
-  return post;
-}
-async function deletePost(pid) {
-  await Post.deleteOne({"_id": pid});
-};
-
-module.exports = { 
-    newPost, viewPost, updatePost, deletePost 
-};
+module.exports = router;
