@@ -37,7 +37,11 @@ I have created the user John when he logins in he will be directed to profile pa
 He can see what he has posted and post whatever content he want.
 ![WhatsApp Image 2022-07-05 at 12 48 02 AM](https://user-images.githubusercontent.com/103222225/177238322-355cfea1-cd68-4226-9c09-6e9f7186cce1.jpeg)
 ![Screenshot (28)](https://user-images.githubusercontent.com/103222225/177843489-e3ba48b0-70e3-4376-8d9c-650f3315a2ad.png)
+on register page on nav bar there is register and login button.
+![image](https://user-images.githubusercontent.com/103222225/177887442-bba7bfa0-54b0-427b-8be1-94a9b9b9e720.png)
+After user login on nav bar we can only see profile tab on top .
+![image](https://user-images.githubusercontent.com/103222225/177887247-b2b82617-8de9-40ef-a7cc-ec4c2526f124.png)
+
 After deleting on of the post
 ![Screenshot (29)](https://user-images.githubusercontent.com/103222225/177843940-ec74a1fe-adaf-4679-b83a-e31be4aee604.png)
-
 
