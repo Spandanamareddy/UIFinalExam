@@ -1,20 +1,18 @@
 import '../../App.css';
 import { fetchData } from "../../main.js";
-import { useState } from "react";
+import { useContext } from "react";
+import UserContext from "../../Context/userContext.js";
 import { useNavigate } from "react-router-dom";
 
 
 const LoginForm = () => {
   const navigate = useNavigate();
 
-  const [user, setUser] = useState({
-    UserId: '',
-    password: ''
-  });
+  const {user, updateUser} = useContext(UserContext);
 
-  const { UserId, password } = user;
+  const {UserId, password} = user;  
 
-  const onChange = (e) => setUser({ ...user, [e.target.name]: e.target.value })
+  const onChange = (e) => updateUser(e.target.name, e.target.value)
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -27,6 +25,7 @@ const LoginForm = () => {
       .then((data) => {
         console.log(data);
         if (!data.message) {
+          updateUser("authenticated", true)
           fetchData("/post/viewpost",
             {
               UserId

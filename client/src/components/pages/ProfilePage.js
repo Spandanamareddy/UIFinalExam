@@ -3,8 +3,11 @@ import { fetchData } from "../../main.js";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
+import { useContext } from "react";
+import UserContext from "../../Context/userContext.js";
 
 const Profile = (props) => {
+    const { user } = useContext(UserContext);
     const location = useLocation();
     const navigate = useNavigate();
     const [post, setPost] = useState({
@@ -40,6 +43,10 @@ const Profile = (props) => {
                         .then((info) => {
                             console.log(info);
                             if (!info.message) {
+                                setPost({PostId: '',
+                                content: '',
+                                timestamp: ''
+                                });
                                 navigate("/profile", { state: { name: UserId, data: info } });
                             }
                         })
@@ -54,10 +61,43 @@ const Profile = (props) => {
 
     }
 
+    const deletePost = (e) => {
+        var pid = e.target.value;
+        var UserId = user.UserId;
+        console.log(e.target.value);
+        fetchData("/post/delete",
+          {
+            pid
+          },
+          "DELETE")
+          .then((data) => {
+            if (!data.message) {
+                console.log(data)
+                fetchData("/post/viewpost",
+                    {
+                        UserId
+                    },
+                    "POST")
+                    .then((info) => {
+                        console.log(info);
+                        if (!info.message) {
+                            navigate("/profile", { state: { name: UserId, data: info } });
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    })
+            }
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      }
+
     let posts = [];
 
     for (let i = 0; i < Object.keys(location.state.data).length; i++) {
-        posts.push({ PostId: location.state.data[i].PostId, content: location.state.data[i].content, timestamp: location.state.data[i].timestamp });
+        posts.push({ _id: location.state.data[i]._id, PostId: location.state.data[i].PostId, content: location.state.data[i].content, timestamp: location.state.data[i].timestamp });
     }
 
     return (
@@ -72,6 +112,7 @@ const Profile = (props) => {
                         <th scope="col">PostId</th>
                         <th scope="col">Content</th>
                         <th scope="col">Timestamp</th>
+                        <th scope="col">Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -80,6 +121,7 @@ const Profile = (props) => {
                             <th scope="row">{cont.PostId}</th>
                             <td>{cont.content}</td>
                             <td>{cont.timestamp}</td>
+                            <td><button className="btn btn-dark btn-left" id="delete-post" name="delete-post" value={cont._id} onClick={deletePost}>Delete</button></td>
                         </tr>
                     ))}
                 </tbody>

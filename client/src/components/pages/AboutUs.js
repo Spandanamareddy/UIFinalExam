@@ -6,6 +6,7 @@ const About = () => {
           <hr />
           <h2 className="text-center">Some Facts...</h2>
           <hr />
+        
           {/* row 1 of facts */}
           <div className="row">
             <div className="col-md">

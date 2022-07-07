@@ -1,4 +1,5 @@
 import '../../App.css';
+
 import { fetchData } from "../../main.js";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -107,7 +108,9 @@ const RegisterForm = () => {
     </div>
   </div>
 </div>
+
     </div>
   );
 }
+
 export default RegisterForm;

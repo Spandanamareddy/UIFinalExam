@@ -5,10 +5,12 @@ import RegisterForm from './components/pages/RegisterForm';
 import Navbar from './components/pages/Navbar';
 import About from './components/pages/AboutUs';
 import Profile from './components/pages/ProfilePage';
+import { UserProvider } from './Context/userContext';
 
 function App() {
   return (
     <div className="App">
+      <UserProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Navbar />}>
@@ -19,6 +21,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
+      </UserProvider>
     </div>
   );
 }
